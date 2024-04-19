@@ -1,4 +1,4 @@
-const { Sequelize } = require("sequelize");
+const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize({
   dialect: "mysql",
@@ -8,4 +8,4 @@ const sequelize = new Sequelize({
   database: "todo",
 });
 
-module.export = sequelize;
+module.exports = sequelize;
