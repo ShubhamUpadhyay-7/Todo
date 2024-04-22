@@ -12,12 +12,13 @@ exports.getAllTodos = async (req, res) => {
 
 exports.createTodo = async (req, res) => {
   const { Name, Date, Description } = req.body;
+  console.log(Name);
   try {
     const todo = await Todo.create({ Name, Date, Description });
     res.status(201).json({ message: "Todo Created Successfully", todo });
   } catch (error) {
     console.error(error);
-    res.status().json({});
+    res.status(500).json({ message: "Server Error" });
   }
 };
 
@@ -48,6 +49,6 @@ exports.deleteTodo = async (req, res) => {
     res.status(200).json({ message: "Todo deleted successfully" });
   } catch (error) {
     console.error(error);
-    res.status().json({ message: "Server Error" });
+    res.status(500).json({ message: "Server Error" });
   }
 };
