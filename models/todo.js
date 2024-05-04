@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../util/db");
+// const User = require("./User");
 const Todo = sequelize.define("Todo", {
   id: {
     type: Sequelize.INTEGER,
@@ -7,18 +8,20 @@ const Todo = sequelize.define("Todo", {
     allowNull: false,
     primaryKey: true,
   },
-  Name: {
+  name: {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  Date: {
+  date: {
     type: Sequelize.DATE,
     allowNull: false,
   },
-  Description: {
+  description: {
     type: Sequelize.STRING,
     allowNull: true,
   },
 });
+
+// Todo.belongsTo(User, { foreignKey: "userId" });
 
 module.exports = Todo;

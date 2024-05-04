@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../util/db");
+const Todo = require("./todo");
 const User = sequelize.define("User", {
   id: {
     type: Sequelize.INTEGER,
@@ -16,5 +17,6 @@ const User = sequelize.define("User", {
     allowNull: false,
   },
 });
+User.hasMany(Todo, { as: "todos", foreignKey: "userId" });
 
 module.exports = User;

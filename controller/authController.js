@@ -4,11 +4,11 @@ const User = require("../models/User");
 exports.register = async (req, res) => {
   const { username, password } = req.body;
   try {
-    const userExists = await User.findOne({ where: { username } });
+    const userExists = await user.findOne({ where: { username } });
     if (userExists) {
       return res.status(400).json({ message: "Username already Exists" });
     }
-    const newUser = await User.create({ username, password });
+    const newUser = await user.create({ username, password });
     res
       .status(201)
       .json({ message: "User registered Successfully", user: newUser });
@@ -21,14 +21,14 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   const { username, password } = req.body;
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ where: { username } });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
     if (user.password !== password) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
-    const token = jwt.sign({ userId: user.id }, "your_secret_key", {
+    const token = jwt.sign({ userId: user.id }, "secret_key", {
       expiresIn: "1h",
     });
     res.status(200).json({ message: "Login successful", token });

@@ -1,9 +1,10 @@
 const Todo = require("../models/todo");
 
 exports.getAllTodos = async (req, res) => {
+  const userId = req.userId;
   try {
-    const todos = await Todo.findAll();
-    res.json(todos);
+    const userTodos = await Todo.findAll({ where: { userId } });
+    res.json(userTodos);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server Error" });
@@ -11,10 +12,10 @@ exports.getAllTodos = async (req, res) => {
 };
 
 exports.createTodo = async (req, res) => {
-  const { Name, Date, Description } = req.body;
-  console.log(Name);
+  const { name, date, description } = req.body;
+  const userId = req.userId;
   try {
-    const todo = await Todo.create({ Name, Date, Description });
+    const todo = await Todo.create({ name, date, description, userId });
     res.status(201).json({ message: "Todo Created Successfully", todo });
   } catch (error) {
     console.error(error);
@@ -24,13 +25,14 @@ exports.createTodo = async (req, res) => {
 
 exports.updateTodo = async (req, res) => {
   const { id } = req.params;
-  const { Name, Date, Description } = req.body;
+  const { name, date, description } = req.body;
+  const userId = req.userId;
   try {
-    const todo = await Todo.findByPk(id);
+    const todo = await Todo.findOne({ where: { id, userId } });
     if (!todo) {
       return res.status(404).json({ message: "Todo not found" });
     }
-    await todo.update({ Name, Date, Description });
+    await todo.update({ name, date, description });
     res.status(200).json({ message: "Todo Updated Successfully", todo });
   } catch (error) {
     console.error(error);
@@ -40,8 +42,9 @@ exports.updateTodo = async (req, res) => {
 
 exports.deleteTodo = async (req, res) => {
   const { id } = req.params;
+  const userId = req.userId;
   try {
-    const todo = await Todo.findByPk(id);
+    const todo = await Todo.findOne({ where: { id, userId } });
     if (!todo) {
       return res.status(404).json({ message: "Todo not found" });
     }

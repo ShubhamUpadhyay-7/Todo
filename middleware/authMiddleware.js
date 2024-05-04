@@ -8,7 +8,7 @@ const authenticate = (req, res, next) => {
   }
   const tokenWithoutBearer = token.split(" ")[1];
   try {
-    const decoded = jwt.verify(tokenWithoutBearer, "your_secret_key");
+    const decoded = jwt.verify(tokenWithoutBearer, "secret_key");
     req.userId = decoded.userId;
     next();
   } catch (error) {
